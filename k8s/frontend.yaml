@@ -19,6 +19,11 @@ spec:
       containers:
         - name: summarize-app-client
           image: myregistry.com/summarize-app-client:latest
-
+          env:
+            - name: API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: api-url
+                  key: url
       imagePullSecrets:
         - name: regcred

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: server
+  name: backend
 spec:
   ports:
   - port: 8000
