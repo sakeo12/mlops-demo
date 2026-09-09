@@ -1,0 +1,38 @@
+services:
+  server:
+    build: ./backend
+    container_name: summarize-server
+    ports:
+      - "8000:8000"
+    volumes:
+      - /root/hf_models/t5-small:/models/t5-small:ro
+
+  client:
+    build: ./frontend
+    container_name: summarize-client
+    ports:
+      - "8501:8501"
+    environment:
+      API_URL: http://server:8000/summarize
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: "1234"
+      DB_NAME: summarize_db
+    depends_on:
+      - server
+      - db
+
+  db:
+    image: mysql:8.4
+    container_name: summarize-db
+    environment:
+      MYSQL_ROOT_PASSWORD: "1234"
+      MYSQL_DATABASE: summarize_db
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+volumes:
+  mysql-data:

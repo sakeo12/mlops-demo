@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: backend
+
+  template:
+    metadata:
+      labels:
+        app: backend
+
+    spec:
+      containers:
+        - name: backend
+          image: myregistry.com/summarize-app-server:latest
+
+          volumeMounts:
+            - name: model-volume
+              mountPath: /models
+
+      imagePullSecrets:
+        - name: regcred
+
+      volumes:
+        - name: model-volume
+          persistentVolumeClaim:
+            claimName: model-pvc
