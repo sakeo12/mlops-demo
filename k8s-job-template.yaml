@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "mlflow-project-run"
+  namespace: mlflow
+
+spec:
+  ttlSecondsAfterFinished: 3600
+  backoffLimit: 2
+
+  template:
+    spec:
+      imagePullSecrets:
+      - name: regcred
+
+      containers:
+      - name: "mlflow-project-run"
+        image: "myregistry.com/test:latest"
+        command: ["python", "/app/test.py"]
+
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+
+        env:
+        - name: MLFLOW_TRACKING_URI
+          value: "http://172.16.0.200:5555"
+
+      restartPolicy: Never
