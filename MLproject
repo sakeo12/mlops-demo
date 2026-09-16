@@ -1,0 +1,8 @@
+name: Test Project
+
+docker_env:
+  image: test
+
+entry_points:
+  main:
+    command: "python /app/test.py"
