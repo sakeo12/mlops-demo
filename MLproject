@@ -1,7 +1,7 @@
 name: Test Project
 
 docker_env:
-  image: test
+  image: myregistry.com/test:latest
 
 entry_points:
   main:
